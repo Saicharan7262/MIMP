@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mee Intlo Maa Pachallu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Inter',sans-serif;
+background:#0b1118;
+color:#fff;
+scroll-behavior:smooth;
+padding-bottom:70px;
+}
+
+:root{
+--accent:#ff6b3d;
+--soft:#ff6b3d40;
+--glass:rgba(255,255,255,0.05);
+}
+
+/* HEADER */
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:rgba(0,0,0,0.6);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+font-weight:700;
+font-size:22px;
+color:var(--accent);
+}
+
+.cart-btn{
+background:linear-gradient(45deg,var(--accent),#ff8a50);
+border:none;
+padding:10px 20px;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+color:#fff;
+}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:60px 20px;
+}
+
+.hero h1{
+font-size:40px;
+color:var(--accent);
+}
+
+.hero p{
+color:#aaa;
+margin-top:10px;
+}
+
+/* SECTIONS */
+section{
+padding:70px 40px;
+}
+
+.section-title{
+font-size:28px;
+margin-bottom:40px;
+color:#ff9a5c;
+}
+
+/* GRID */
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+/* CARD */
+.card{
+background:var(--glass);
+border-radius:20px;
+padding:25px;
+border:1px solid rgba(255,255,255,0.08);
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:240px;
+}
+
+.card h3{
+color:var(--accent);
+margin-bottom:15px;
+}
+
+/* WEIGHTS */
+.weights{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-bottom:20px;
+}
+
+.weight-btn{
+background:#1c2430;
+border:none;
+padding:6px 12px;
+border-radius:20px;
+color:#fff;
+cursor:pointer;
+transition:0.2s;
+}
+
+.weight-btn.selected{
+border:2px solid var(--accent);
+}
+
+.weight-btn.in-cart{
+background:var(--accent);
+box-shadow:0 0 10px var(--soft);
+}
+
+.add-btn{
+width:100%;
+padding:10px;
+border-radius:30px;
+border:1px solid var(--accent);
+background:transparent;
+color:var(--accent);
+cursor:pointer;
+}
+
+.add-btn:hover{
+background:var(--accent);
+color:#fff;
+}
+
+/* ABOUT */
+.about{
+background:#0f1621;
+border-radius:20px;
+padding:40px;
+line-height:1.6;
+}
+
+/* INFO GRID */
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.info-box{
+background:var(--glass);
+padding:20px;
+border-radius:15px;
+text-align:center;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:40px;
+color:#777;
+border-top:1px solid #222;
+}
+
+/* STICKY BAR */
+.sticky-bar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#11161d;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-top:1px solid #222;
+z-index:3000;
+}
+
+.sticky-bar a{
+color:#fff;
+text-decoration:none;
+font-weight:600;
+font-size:14px;
+}
+
+/* CART OVERLAY */
+.cart-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(4px);
+opacity:0;
+visibility:hidden;
+transition:0.3s;
+z-index:1999;
+}
+
+.cart-overlay.active{
+opacity:1;
+visibility:visible;
+}
+
+/* CART PANEL */
+.cart-modal{
+position:fixed;
+right:-420px;
+top:0;
+width:400px;
+height:100vh;
+background:#11161d;
+padding:30px;
+transition:0.4s;
+overflow-y:auto;
+z-index:2000;
+display:flex;
+flex-direction:column;
+}
+
+.cart-modal.active{
+right:0;
+}
+
+.cart-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:20px;
+font-weight:600;
+color:var(--accent);
+margin-bottom:20px;
+}
+
+.cart-item{
+margin-bottom:15px;
+padding-bottom:10px;
+border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.qty-controls button{
+background:#1b222c;
+border:none;
+padding:5px 9px;
+color:#fff;
+border-radius:5px;
+margin:0 3px;
+cursor:pointer;
+}
+
+.total-box{
+margin-top:15px;
+padding:15px;
+background:var(--glass);
+border-radius:12px;
+font-weight:600;
+}
+
+input,textarea{
+width:100%;
+margin-top:10px;
+padding:8px;
+border-radius:8px;
+border:none;
+background:#1c222b;
+color:#fff;
+}
+
+.whatsapp-order{
+background:#25D366;
+margin-top:15px;
+padding:12px;
+border-radius:20px;
+width:100%;
+font-weight:600;
+border:none;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">Mee Intlo Maa Pachallu</div>
+
+<button class="cart-btn" onclick="toggleCart()">
+Cart 🛒 (<span id="cart-count">0</span>)
+</button>
+
+</header>
+
+<div class="hero">
+
+<h1>Fresh Homemade Pickles</h1>
+
+<p>Choose your favorite pachallu and order instantly via WhatsApp</p>
+
+</div>
+
+<section>
+<div class="section-title">Non-Veg Pickles</div>
+<div class="menu-grid" id="nonveg"></div>
+</section>
+
+<section>
+<div class="section-title">Veg Pickles</div>
+<div class="menu-grid" id="veg"></div>
+</section>
+
+<section>
+<div class="section-title">Extras</div>
+<div class="menu-grid" id="extras"></div>
+</section>
+
+<section>
+<div class="section-title">About Us</div>
+<div class="about">
+Traditional homemade pickles made with fresh ingredients.
+No preservatives. Glass sealed packaging.
+Custom spice levels available. Delivered across India.
+</div>
+</section>
+
+<section>
+<div class="section-title">Why Choose Us</div>
+<div class="info-grid">
+<div class="info-box">🚚 Pan India Delivery</div>
+<div class="info-box">🫙 Glass Sealed Packaging</div>
+<div class="info-box">🔥 Custom Spice Levels</div>
+<div class="info-box">🌿 Homemade & Fresh</div>
+</div>
+</section>
+
+<footer>
+© 2026 Mee Intlo Maa Pachallu | Made With Love 🌶️
+</footer>
+
+<div class="sticky-bar">
+<a href="tel:+917095787154">📞 Call</a>
+<a href="https://wa.me/917095787154" target="_blank">💬 WhatsApp</a>
+<a href="https://instagram.com/mee_intlo_maa_pachallu" target="_blank">📸 Instagram</a>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<div class="cart-modal" id="cart">
+<div class="cart-header">
+Your Cart
+<span style="cursor:pointer" onclick="toggleCart()">✕</span>
+</div>
+<div id="cart-items"></div>
+<div class="total-box">Total: ₹<span id="total">0</span></div>
+<input type="text" id="name" placeholder="Your Name">
+<textarea id="address" placeholder="Full Address"></textarea>
+<button class="whatsapp-order" onclick="orderWhatsApp()">Order via WhatsApp</button>
+</div>
+
+<script>
+const menuData={
+nonveg:[
+{name:"Chicken Pickle",weights:[{label:"250g",price:269},{label:"500g",price:529},{label:"1kg",price:999}]},
+{name:"Fish Pickle",weights:[{label:"250g",price:479},{label:"500g",price:899},{label:"1kg",price:1699}]},
+{name:"Prawns Pickle",weights:[{label:"250g",price:479},{label:"500g",price:899},{label:"1kg",price:1699}]},
+{name:"Mutton Bone",weights:[{label:"250g",price:499},{label:"500g",price:949},{label:"1kg",price:1799}]},
+{name:"Mutton Boneless",weights:[{label:"250g",price:599},{label:"500g",price:1139},{label:"1kg",price:2199}]}
+],
+veg:[
+{name:"Kakarakaya",weights:[{label:"250g",price:149},{label:"500g",price:279},{label:"1kg",price:499}]},
+{name:"Usirikaya",weights:[{label:"250g",price:129},{label:"500g",price:249},{label:"1kg",price:479}]}
+],
+extras:[
+{name:"Curry Leaves Powder",weights:[{label:"250g",price:179},{label:"500g",price:349},{label:"1kg",price:649}]},
+{name:"Dry Fruits Laddu",weights:[{label:"250g",price:499},{label:"500g",price:849},{label:"1kg",price:1599}]}
+]
+};
+
+let cart={};
+let selectedOptions={};
+
+function renderMenu(){
+for(let category in menuData){
+const container=document.getElementById(category);
+container.innerHTML="";
+menuData[category].forEach(item=>{
+let weightButtons="";
+item.weights.forEach(w=>{
+let btnId=`btn-${item.name}-${w.label}`.replace(/\s+/g,'');
+weightButtons+=`
+<button id="${btnId}" class="weight-btn"
+onclick="selectWeight('${item.name}','${w.label}',${w.price})">
+${w.label} ₹${w.price}
+</button>`;
+});
+container.innerHTML+=`
+<div class="card">
+<h3>${item.name}</h3>
+<div class="weights">${weightButtons}</div>
+<button class="add-btn" onclick="addToCart('${item.name}')">Add to Cart</button>
+</div>`;
+});
+}
+}
+
+function selectWeight(name,weight,price){
+selectedOptions[name]={weight,price};
+let clean=name.replace(/\s+/g,'');
+document.querySelectorAll(`[id^="btn-${clean}"]`)
+.forEach(b=>b.classList.remove("selected"));
+let id=`btn-${name}-${weight}`.replace(/\s+/g,'');
+document.getElementById(id).classList.add("selected");
+}
+
+function addToCart(name){
+if(!selectedOptions[name]){
+let category=Object.keys(menuData)
+.find(cat=>menuData[cat].some(i=>i.name===name));
+let item=menuData[category].find(i=>i.name===name);
+selectWeight(name,item.weights[0].label,item.weights[0].price);
+}
+let weight=selectedOptions[name].weight;
+let price=selectedOptions[name].price;
+let key=name+" ("+weight+")";
+if(cart[key]) cart[key].qty++;
+else cart[key]={price,qty:1};
+renderCart();
+updateHighlights();
+}
+
+function changeQty(name,delta){
+cart[name].qty+=delta;
+if(cart[name].qty<=0) delete cart[name];
+renderCart();
+updateHighlights();
+}
+
+function renderCart(){
+let items=document.getElementById("cart-items");
+items.innerHTML="";
+let total=0,count=0;
+for(let item in cart){
+let subtotal=cart[item].price*cart[item].qty;
+total+=subtotal;
+count+=cart[item].qty;
+items.innerHTML+=`
+<div class="cart-item">
+<strong>${item}</strong><br>
+₹${cart[item].price} x ${cart[item].qty}
+<div class="qty-controls">
+<button onclick="changeQty('${item}',-1)">-</button>
+<button onclick="changeQty('${item}',1)">+</button>
+</div>
+</div>`;
+}
+document.getElementById("total").innerText=total;
+document.getElementById("cart-count").innerText=count;
+}
+
+function updateHighlights(){
+document.querySelectorAll(".weight-btn").forEach(b=>b.classList.remove("in-cart"));
+for(let item in cart){
+let [product,weightPart]=item.split(" (");
+let weight=weightPart.replace(")","");
+let id=`btn-${product}-${weight}`.replace(/\s+/g,'');
+let btn=document.getElementById(id);
+if(btn) btn.classList.add("in-cart");
+}
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+document.getElementById("cartOverlay").classList.toggle("active");
+document.body.style.overflow=
+document.getElementById("cart").classList.contains("active")
+?"hidden":"auto";
+}
+
+function orderWhatsApp(){
+let name=document.getElementById("name").value;
+let address=document.getElementById("address").value;
+if(!name||!address||Object.keys(cart).length===0){
+alert("Please fill details and add items.");
+return;
+}
+let message="Hello Mee Intlo Maa Pachallu!%0A%0AOrder Details:%0A";
+let total=0;
+for(let item in cart){
+let subtotal=cart[item].price*cart[item].qty;
+total+=subtotal;
+message+=`${item} - ${cart[item].qty} pcs - ₹${subtotal}%0A`;
+}
+message+=`%0ATotal: ₹${total}%0AName: ${name}%0AAddress: ${address}`;
+window.open("https://wa.me/917095787154?text="+message,"_blank");
+}
+
+renderMenu();
+</script>
+
+</body>
+</html>

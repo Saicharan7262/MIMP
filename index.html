@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Mee Intlo Maa Pickles</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Inter;
+background:#0b0f13;
+color:white;
+overflow-x:hidden;
+}
+
+/* SPARKLE BACKGROUND */
+
+#sparkleCanvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px 8%;
+position:fixed;
+width:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#ff7a45;
+letter-spacing:1px;
+}
+
+.order-btn{
+background:linear-gradient(45deg,#ff7a45,#ffb36a);
+border:none;
+padding:12px 26px;
+border-radius:30px;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+.order-btn:hover{
+transform:scale(1.05);
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:radial-gradient(circle at 20% 30%,#2a0e06,#0b0f13 70%);
+padding:40px;
+position:relative;
+overflow:hidden;
+}
+
+.hero h1{
+font-family:Playfair Display;
+font-size:64px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+color:#ccc;
+max-width:650px;
+margin:auto;
+margin-bottom:35px;
+}
+
+/* SPICE SMOKE */
+
+.smoke{
+position:absolute;
+width:650px;
+height:650px;
+background:radial-gradient(circle, rgba(255,120,60,0.18), transparent 60%);
+filter:blur(90px);
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+animation:smokeMove 12s infinite alternate;
+pointer-events:none;
+}
+
+@keyframes smokeMove{
+
+from{
+transform:translate(-50%,-50%) scale(1);
+}
+
+to{
+transform:translate(-40%,-55%) scale(1.2);
+}
+
+}
+
+/* FLOATING JAR */
+
+.jar{
+position:absolute;
+right:8%;
+top:35%;
+width:240px;
+
+/* remove white background visually */
+mix-blend-mode:multiply;
+
+/* floating animation */
+animation:floatJar 6s ease-in-out infinite;
+
+/* depth shadow */
+filter:drop-shadow(0 40px 40px rgba(0,0,0,0.7));
+}
+@keyframes floatJar{
+0%{transform:translateY(0px) rotate(0deg);}
+50%{transform:translateY(-22px) rotate(3deg);}
+100%{transform:translateY(0px) rotate(0deg);}
+}
+
+/* SECTIONS */
+
+section{
+padding:110px 10%;
+}
+
+/* FEATURES */
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+.feature{
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+padding:35px;
+border:1px solid rgba(255,255,255,0.08);
+transition:.3s;
+}
+
+.feature:hover{
+transform:translateY(-10px);
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+}
+
+.feature h3{
+color:#ff9b63;
+margin-bottom:10px;
+}
+
+/* PRODUCTS */
+
+.products-title{
+text-align:center;
+font-family:Playfair Display;
+font-size:42px;
+margin-bottom:60px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
+
+.product{
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+padding:40px;
+border:1px solid rgba(255,255,255,0.07);
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.product::before{
+content:"";
+position:absolute;
+top:-100%;
+left:-100%;
+width:200%;
+height:200%;
+background:radial-gradient(circle, rgba(255,140,80,0.2), transparent 60%);
+opacity:0;
+transition:.4s;
+}
+
+.product:hover::before{
+opacity:1;
+transform:translate(25%,25%);
+}
+
+.product:hover{
+transform:translateY(-10px);
+}
+
+.product h3{
+color:#ff7a45;
+margin-bottom:10px;
+}
+
+/* CTA */
+
+.cta{
+text-align:center;
+padding:120px 10%;
+background:linear-gradient(120deg,#1c0b05,#2e1209);
+}
+
+.cta h2{
+font-family:Playfair Display;
+font-size:48px;
+margin-bottom:40px; /* increased space */
+}
+
+.cta button{
+background:linear-gradient(45deg,#ff7a45,#ffb36a);
+border:none;
+padding:18px 45px;
+font-size:18px;
+border-radius:40px;
+color:white;
+cursor:pointer;
+}
+/* FOOTER */
+
+footer{
+padding:50px;
+text-align:center;
+color:#aaa;
+border-top:1px solid rgba(255,255,255,0.06);
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#25D366;
+padding:16px 26px;
+border-radius:40px;
+color:white;
+font-weight:600;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="sparkleCanvas"></canvas>
+
+<nav>
+
+<div class="logo">Mee Intlo Maa Pachallu</div>
+
+<button class="order-btn magnetic" onclick="orderNow()">Order Now</button>
+
+</nav>
+
+<div class="hero">
+
+<div class="smoke"></div>
+
+<img class="jar" src=" ">
+
+<div>
+
+<h1>Authentic Homemade Pickles</h1>
+
+<p>
+Traditional Telangana pickles prepared with real spices,
+fresh ingredients and the taste of home.
+</p>
+
+<button class="order-btn magnetic" onclick="orderNow()">Order Fresh Pickles</button>
+
+</div>
+
+</div>
+
+
+<section>
+
+<div class="features">
+
+<div class="feature">
+<h3>🌶 Authentic Telangana Taste</h3>
+<p>Traditional homemade recipes prepared with real spices.</p>
+</div>
+
+<div class="feature">
+<h3>🫙 Glass Jar Packaging</h3>
+<p>Sealed in classy glass jars.</p>
+</div>
+
+<div class="feature">
+<h3>🔥 Tailor Made Pickles</h3>
+<p>Custom spice levels exactly the way you like.</p>
+</div>
+
+<div class="feature">
+<h3>🚚 From Our Kitchen To Your Home</h3>
+<p>Delivery from our kitchen to every corner of India.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="products-title">Customer Favorites</div>
+
+<div class="products">
+
+<div class="product">
+<h3>Chicken Pickle</h3>
+<p>Rich spicy Telangana style chicken pickle.</p>
+</div>
+
+<div class="product">
+<h3>Fish Pickle</h3>
+<p>Fresh fish blended with aromatic spices.</p>
+</div>
+
+<div class="product">
+<h3>Prawns Pickle</h3>
+<p>Classic coastal prawns pickle loved by customers.</p>
+</div>
+
+<div class="product">
+<h3>Mutton Pickle</h3>
+<p>Bold mutton pickle prepared with premium spices.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<div class="cta">
+
+<h2 class="cta-text">Experience the taste of homemade pickles.</h2>
+
+<button class="order-btn magnetic" onclick="orderNow()">Order Now</button>
+
+</div>
+
+<footer>
+
+© 2026 Mee Intlo Maa Pickles  
+| Made With Love ❤️
+
+</footer>
+
+
+<a class="whatsapp" href="order.html">Order</a>
+
+<script>
+
+/* SPARKLE PARTICLES */
+
+const canvas=document.getElementById("sparkleCanvas")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let particles=[]
+
+for(let i=0;i<80;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+dx:(Math.random()-0.5)*0.25,
+dy:(Math.random()-0.5)*0.25
+
+})
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach(p=>{
+
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+ctx.fillStyle="rgba(255,200,150,0.7)"
+ctx.fill()
+
+p.x+=p.dx
+p.y+=p.dy
+
+})
+
+requestAnimationFrame(animate)
+
+}
+
+animate()
+
+/* MAGNETIC BUTTON */
+
+document.querySelectorAll(".magnetic").forEach(btn=>{
+
+btn.addEventListener("mousemove",e=>{
+
+const rect=btn.getBoundingClientRect()
+
+const x=e.clientX-rect.left-rect.width/2
+const y=e.clientY-rect.top-rect.height/2
+
+btn.style.transform=`translate(${x*0.2}px,${y*0.2}px)`
+
+})
+
+btn.addEventListener("mouseleave",()=>{
+
+btn.style.transform="translate(0,0)"
+
+})
+
+})
+
+/* CURSOR TRAIL */
+
+document.addEventListener("mousemove",e=>{
+
+const dot=document.createElement("div")
+
+dot.style.position="fixed"
+dot.style.width="6px"
+dot.style.height="6px"
+dot.style.borderRadius="50%"
+dot.style.background="#ff7a45"
+dot.style.left=e.clientX+"px"
+dot.style.top=e.clientY+"px"
+dot.style.pointerEvents="none"
+dot.style.zIndex="9999"
+
+document.body.appendChild(dot)
+
+setTimeout(()=>{
+
+dot.style.transition="0.6s"
+dot.style.opacity="0"
+dot.style.transform="scale(2)"
+
+setTimeout(()=>dot.remove(),600)
+
+},10)
+
+})
+
+function orderNow(){
+window.location.href="order.html";
+}
+
+</script>
+
+</body>
+</html>
