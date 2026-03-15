@@ -435,7 +435,7 @@ body::after {
           <span class="item-emoji">🍗</span>
           <div class="item-info">
             <div class="item-name">Chicken Pickle</div>
-            <div class="item-desc">Rich, bold Telangana-style chicken pickle in traditional masalas.</div>
+            <div class="item-desc">Rich, bold chicken pickle in traditional masalas.</div>
             <div class="weight-row">
               <button class="wt-btn" onclick="selectWeight('Chicken Pickle','250g',269,this)">250g · ₹269</button>
               <button class="wt-btn" onclick="selectWeight('Chicken Pickle','500g',529,this)">500g · ₹529</button>
@@ -624,7 +624,6 @@ body::after {
       <div class="sum-row total"><span>Total</span><span id="sumTotal">₹0</span></div>
       <div class="customer-fields">
         <input class="cfield" id="custName" type="text" placeholder="Your Name *">
-        <input class="cfield" id="custPhone" type="tel" placeholder="Phone Number *">
         <textarea class="cfield" id="custAddr" rows="2" placeholder="Delivery Address *"></textarea>
         <textarea class="cfield" id="custNote" rows="1" placeholder="Special requests / spice level..."></textarea>
       </div>
@@ -663,7 +662,6 @@ body::after {
     <div class="drawer-sum"><span>Total</span><span id="drawerTotal">₹0</span></div>
     <div class="drawer-fields">
       <input class="cfield" id="mobName" type="text" placeholder="Your Name *">
-      <input class="cfield" id="mobPhone" type="tel" placeholder="Phone Number *">
       <textarea class="cfield" id="mobAddr" rows="2" placeholder="Delivery Address *"></textarea>
       <textarea class="cfield" id="mobNote" rows="1" placeholder="Special requests..."></textarea>
     </div>
@@ -894,10 +892,10 @@ let pendingOrderData = null;
 
 function placeOrder() {
   const name = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
+  const phone = '';
   const addr = document.getElementById('custAddr').value.trim();
   const note = document.getElementById('custNote').value.trim();
-  if (!name || !phone || !addr) { showToast('⚠️ Please fill your name, phone & address!'); return; }
+  if (!name || !addr) { showToast('⚠️ Please fill your name & address!'); return; }
   if (Object.keys(cart).length === 0) { showToast('⚠️ Your cart is empty!'); return; }
   showOrderModal(name, phone, addr, note);
 }
@@ -923,7 +921,7 @@ function showOrderModal(name, phone, addr, note) {
 
   document.getElementById('modalTotal').textContent = '₹' + total.toLocaleString('en-IN');
   document.getElementById('modalCustomer').innerHTML =
-    `👤 <strong>${name}</strong><br>📞 ${phone}<br>📍 ${addr}` + (note ? `<br>📝 ${note}` : '');
+    `👤 <strong>${name}</strong><br>📍 ${addr}` + (note ? `<br>📝 ${note}` : '');
 
   document.getElementById('orderModal').classList.add('open');
 }
@@ -945,7 +943,6 @@ function confirmOrder() {
   });
   msg += `%0A*Total: ₹${total.toLocaleString('en-IN')}*%0A%0A`;
   msg += `👤 Name: ${name}%0A`;
-  msg += `📞 Phone: ${phone}%0A`;
   msg += `📍 Address: ${addr}%0A`;
   if (note) msg += `📝 Note: ${note}%0A`;
   msg += `%0A_Prices confirmed at time of order. Order ID must be quoted for any changes._`;
@@ -1008,10 +1005,10 @@ function renderDrawer() {
 }
 function placeMobileOrder() {
   const name = document.getElementById('mobName').value.trim();
-  const phone = document.getElementById('mobPhone').value.trim();
+  const phone = '';
   const addr = document.getElementById('mobAddr').value.trim();
   const note = document.getElementById('mobNote').value.trim();
-  if (!name || !phone || !addr) { showToast('⚠️ Fill your name, phone & address!'); return; }
+  if (!name || !addr) { showToast('⚠️ Fill your name & address!'); return; }
   closeDrawer();
   showOrderModal(name, phone, addr, note);
 }
