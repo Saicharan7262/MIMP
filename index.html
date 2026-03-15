@@ -35,30 +35,7 @@ body {
   cursor: none;
 }
 
-/* CUSTOM CURSOR */
-.cursor {
-  position: fixed;
-  width: 12px; height: 12px;
-  background: var(--red);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-  mix-blend-mode: multiply;
-}
-.cursor-ring {
-  position: fixed;
-  width: 36px; height: 36px;
-  border: 2px solid var(--orange);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
-  opacity: 0.6;
-}
-body:hover .cursor { opacity: 1; }
+
 
 /* NOISE TEXTURE OVERLAY */
 body::before {
@@ -1183,8 +1160,62 @@ document.addEventListener('touchmove', e => {
   Array.from(e.touches).forEach(t => { spawnDust(t.clientX, t.clientY); spawnDust(t.clientX, t.clientY); });
 }, { passive: true });
 document.addEventListener('touchstart', e => {
-  Array.from(e.touches).forEach(t => { for(let i=0;i<4;i++) spawnDust(t.clientX, t.clientY); });
+  Array.from(e.touches).forEach(t => {
+    for(let i=0;i<6;i++) spawnDust(t.clientX, t.clientY);
+    spawnTapBurst(t.clientX, t.clientY);
+    spawnRipple(t.clientX, t.clientY);
+  });
 }, { passive: true });
+
+// Tap burst — bigger particles explode outward on touch
+function spawnTapBurst(cx, cy) {
+  const burstColors = ['#f0c040','#e67e22','#c0392b','#d4a017'];
+  for (let i = 0; i < 10; i++) {
+    const el = document.createElement('div');
+    const size = 4 + Math.random() * 6;
+    const angle = (i / 10) * Math.PI * 2;
+    const dist = 30 + Math.random() * 40;
+    el.style.cssText = `position:fixed;width:${size}px;height:${size}px;border-radius:50%;background:${burstColors[Math.floor(Math.random()*burstColors.length)]};left:${cx}px;top:${cy}px;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);`;
+    document.body.appendChild(el);
+    const start = performance.now();
+    const dur = 500 + Math.random() * 200;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+    (function animate(now) {
+      const t = (now - start) / dur;
+      if (t >= 1) { el.remove(); return; }
+      const e2 = 1 - Math.pow(1-t, 3);
+      el.style.left = (cx + tx * e2) + 'px';
+      el.style.top = (cy + ty * e2) + 'px';
+      el.style.opacity = 1 - t;
+      el.style.transform = `translate(-50%,-50%) scale(${1 - t * 0.5})`;
+      requestAnimationFrame(animate);
+    })(start);
+  }
+}
+
+// Ripple ring on tap
+function spawnRipple(cx, cy) {
+  const el = document.createElement('div');
+  el.style.cssText = `position:fixed;width:10px;height:10px;border-radius:50%;border:2px solid rgba(212,160,23,0.8);left:${cx}px;top:${cy}px;pointer-events:none;z-index:99997;transform:translate(-50%,-50%);`;
+  document.body.appendChild(el);
+  const start = performance.now();
+  const dur = 600;
+  (function animate(now) {
+    const t = (now - start) / dur;
+    if (t >= 1) { el.remove(); return; }
+    const s = 1 + t * 8;
+    el.style.transform = `translate(-50%,-50%) scale(${s})`;
+    el.style.opacity = 1 - t;
+    requestAnimationFrame(animate);
+  })(start);
+}
+
+// Button tap scale feedback
+document.querySelectorAll('button, a, .feature-card, .product-card, .tab, .weight-chip').forEach(el => {
+  el.addEventListener('touchstart', () => { el.style.transition = 'transform 0.1s'; el.style.transform = 'scale(0.95)'; }, { passive: true });
+  el.addEventListener('touchend', () => { el.style.transform = 'scale(1)'; }, { passive: true });
+});
 
 // Spice particles
 const pCont = document.getElementById('particles');
