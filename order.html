@@ -958,7 +958,7 @@ function confirmOrder() {
     items.map(v => `- ${v.name} (${v.weight}) x${v.qty} = Rs.${v.price * v.qty}`).join('\n') +
     `\n\nTotal: Rs.${total}\nName: ${name}\nPhone: ${phone}\nAddress: ${addr}` +
     (note ? `\nNote: ${note}` : '');
-  window.open(`mailto:meeintlomaapachallu@gmail.com?subject=New Order ${currentOrderId}&body=${encodeURIComponent(emailBody)}`);
+  window.open(`mailto:smartysai111@gmail.com?subject=New Order ${currentOrderId}&body=${encodeURIComponent(emailBody)}`);
 
   closeModal();
   showToast('✅ Order #' + currentOrderId + ' sent!');
@@ -1025,7 +1025,10 @@ function showToast(msg) {
   t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-function scrollToCart() { document.getElementById('cartSide').scrollIntoView({behavior:'smooth'}); }
+function scrollToCart() {
+  if (window.innerWidth <= 900) { openDrawer(); }
+  else { document.getElementById('cartSide').scrollIntoView({behavior:'smooth'}); }
+}
 
 window.addEventListener('resize', () => {
   const bar = document.getElementById('mobileBar');
