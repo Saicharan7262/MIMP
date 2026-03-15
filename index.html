@@ -1,506 +1,1216 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<title>Mee Intlo Maa Pickles</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mee Intlo Maa Pachallu — Homemade Pickles</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=Yatra+One&display=swap" rel="stylesheet">
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+:root {
+  --red: #c0392b;
+  --red-deep: #8b1a0f;
+  --orange: #e67e22;
+  --gold: #d4a017;
+  --gold-light: #f0c040;
+  --cream: #fdf6e3;
+  --cream-dark: #f0e6c8;
+  --brown: #4a2c0a;
+  --brown-mid: #7a4419;
+  --green: #2e6b2e;
+  --green-light: #4a9e4a;
+  --dark: #1a0a02;
+  --text-dark: #2c1503;
+  --text-mid: #5c3010;
 }
 
-body{
-font-family:Inter;
-background:#0b0f13;
-color:white;
-overflow-x:hidden;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  cursor: none;
 }
 
-/* SPARKLE BACKGROUND */
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: multiply;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  opacity: 0.6;
+}
+body:hover .cursor { opacity: 1; }
 
-#sparkleCanvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
+/* NOISE TEXTURE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0.4;
 }
 
-/* NAVBAR */
-
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:22px 8%;
-position:fixed;
-width:100%;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-z-index:1000;
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  background: rgba(26, 10, 2, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 160, 23, 0.2);
 }
 
-.logo{
-font-size:22px;
-font-weight:600;
-color:#ff7a45;
-letter-spacing:1px;
+.nav-logo {
+  font-family: 'Yatra One', cursive;
+  font-size: 1.3rem;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  line-height: 1.1;
 }
+.nav-logo span { display: block; font-size: 0.85rem; color: var(--orange); letter-spacing: 3px; font-family: 'Crimson Pro', serif; font-style: italic; }
 
-.order-btn{
-background:linear-gradient(45deg,#ff7a45,#ffb36a);
-border:none;
-padding:12px 26px;
-border-radius:30px;
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:.25s;
-}
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { color: var(--cream-dark); text-decoration: none; font-size: 1rem; letter-spacing: 0.5px; transition: color 0.25s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+.nav-links a:hover { color: var(--gold-light); }
+.nav-links a:hover::after { width: 100%; }
 
-.order-btn:hover{
-transform:scale(1.05);
+.nav-cta {
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 100%);
+  color: white;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 2px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: none;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
 }
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+.nav-cta:hover::before { left: 100%; }
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,57,43,0.5); }
 
 /* HERO */
-
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-background:radial-gradient(circle at 20% 30%,#2a0e06,#0b0f13 70%);
-padding:40px;
-position:relative;
-overflow:hidden;
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--dark);
 }
 
-.hero h1{
-font-family:Playfair Display;
-font-size:64px;
-margin-bottom:20px;
+.hero-bg,
+#particles {
+  position: absolute;
+  inset: 0;
+  grid-column: 1 / -1;
 }
 
-.hero p{
-font-size:20px;
-color:#ccc;
-max-width:650px;
-margin:auto;
-margin-bottom:35px;
+.hero-left {
+  grid-column: 1;
+  grid-row: 1;
 }
 
-/* SPICE SMOKE */
-
-.smoke{
-position:absolute;
-width:650px;
-height:650px;
-background:radial-gradient(circle, rgba(255,120,60,0.18), transparent 60%);
-filter:blur(90px);
-top:40%;
-left:50%;
-transform:translate(-50%,-50%);
-animation:smokeMove 12s infinite alternate;
-pointer-events:none;
+.hero-right {
+  grid-column: 2;
+  grid-row: 1;
 }
 
-@keyframes smokeMove{
-
-from{
-transform:translate(-50%,-50%) scale(1);
+.scroll-hint {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  position: relative;
+  bottom: auto;
+  left: auto;
+  transform: none;
+  align-self: end;
+  padding-bottom: 32px;
 }
 
-to{
-transform:translate(-40%,-55%) scale(1.2);
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 50%, rgba(192,57,43,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 30%, rgba(212,160,23,0.15) 0%, transparent 50%),
+    linear-gradient(160deg, #1a0a02 0%, #2e1005 50%, #1a0a02 100%);
 }
 
+/* Animated spice particles */
+.spice-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatParticle linear infinite;
+  opacity: 0;
 }
 
-/* FLOATING JAR */
-
-.jar{
-position:absolute;
-right:8%;
-top:35%;
-width:240px;
-
-/* remove white background visually */
-mix-blend-mode:multiply;
-
-/* floating animation */
-animation:floatJar 6s ease-in-out infinite;
-
-/* depth shadow */
-filter:drop-shadow(0 40px 40px rgba(0,0,0,0.7));
-}
-@keyframes floatJar{
-0%{transform:translateY(0px) rotate(0deg);}
-50%{transform:translateY(-22px) rotate(3deg);}
-100%{transform:translateY(0px) rotate(0deg);}
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
 }
 
-/* SECTIONS */
-
-section{
-padding:110px 10%;
+.hero-left {
+  position: relative;
+  z-index: 2;
+  padding: 120px 6% 80px 8%;
 }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  width: 30px; height: 1px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  line-height: 1.0;
+  color: var(--cream);
+  font-weight: 700;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero h1 .accent { color: var(--gold-light); font-style: italic; }
+.hero h1 .red-accent { color: var(--red); }
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: rgba(253,246,227,0.7);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.7s forwards;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.9s forwards;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--red), var(--red-deep));
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: none;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(192,57,43,0.5); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gold-light);
+  border: 1px solid rgba(212,160,23,0.5);
+  padding: 16px 36px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  cursor: none;
+  transition: all 0.3s;
+}
+.btn-secondary:hover { background: rgba(212,160,23,0.1); border-color: var(--gold-light); transform: translateY(-3px); }
+
+.hero-tags {
+  display: flex;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.9s 1.1s forwards;
+}
+.hero-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: rgba(253,246,227,0.65);
+}
+.hero-tag span { font-size: 1.1rem; }
+
+/* HERO RIGHT — animated jar visual */
+.hero-right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 6% 80px;
+  opacity: 0;
+  animation: fadeIn 1.2s 0.6s forwards;
+}
+
+.jar-scene {
+  position: relative;
+  width: 340px;
+  height: 340px;
+}
+
+.jar-glow {
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(circle, rgba(192,57,43,0.35) 0%, rgba(212,160,23,0.15) 40%, transparent 70%);
+  animation: pulseGlow 4s ease-in-out infinite;
+  border-radius: 50%;
+}
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.jar-svg {
+  width: 100%;
+  height: 100%;
+  animation: floatJar 6s ease-in-out infinite;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8));
+}
+@keyframes floatJar {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(212,160,23,0.25);
+  animation: spin linear infinite;
+}
+.orbit-1 { width: 380px; height: 380px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-duration: 20s; }
+.orbit-2 { width: 460px; height: 460px; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-duration: 30s; animation-direction: reverse; }
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+.orbit-dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  top: -4px; left: 50%;
+  margin-left: -4px;
+}
+.dot-red { background: var(--red); box-shadow: 0 0 12px var(--red); }
+.dot-gold { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+
+/* Floating emoji labels */
+.float-label {
+  position: absolute;
+  background: rgba(26,10,2,0.85);
+  border: 1px solid rgba(212,160,23,0.3);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: var(--cream);
+  white-space: nowrap;
+  animation: floatLabel 5s ease-in-out infinite;
+  backdrop-filter: blur(8px);
+}
+.float-label-1 { top: 5%; left: -30%; animation-delay: 0s; }
+.float-label-2 { bottom: 15%; right: -35%; animation-delay: 1.5s; }
+.float-label-3 { top: 55%; left: -40%; animation-delay: 3s; }
+@keyframes floatLabel {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* SCROLL INDICATOR */
+.scroll-hint {
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(253,246,227,0.4);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: fadeIn 1s 2s both;
+}
+.scroll-line {
+  width: 1px; height: 50px;
+  background: linear-gradient(to bottom, rgba(212,160,23,0.6), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* MARQUEE */
+.marquee-strip {
+  background: var(--red-deep);
+  padding: 14px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(212,160,23,0.2);
+  border-bottom: 1px solid rgba(212,160,23,0.2);
+}
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 25s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* FEATURES */
-
-.features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
+.features-section {
+  padding: 120px 8%;
+  background: var(--cream);
+  position: relative;
+}
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, transparent, var(--red), var(--gold), var(--red), transparent);
 }
 
-.feature{
-background:rgba(255,255,255,0.05);
-border-radius:20px;
-padding:35px;
-border:1px solid rgba(255,255,255,0.08);
-transition:.3s;
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+  font-family: 'Crimson Pro', serif;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--brown);
+  line-height: 1.15;
+}
+.section-title em { color: var(--red); font-style: italic; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
 }
 
-.feature:hover{
-transform:translateY(-10px);
-box-shadow:0 15px 40px rgba(0,0,0,0.6);
+.feature-card {
+  padding: 50px 36px;
+  background: white;
+  border: 1px solid rgba(74,44,10,0.08);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: none;
 }
+.feature-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; width: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  transition: width 0.4s;
+}
+.feature-card:hover::before { width: 100%; }
+.feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(74,44,10,0.12); z-index: 1; }
 
-.feature h3{
-color:#ff9b63;
-margin-bottom:10px;
+.feature-icon { font-size: 2.8rem; margin-bottom: 20px; display: block; }
+.feature-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brown);
+  margin-bottom: 12px;
 }
+.feature-card p { font-size: 1rem; color: #7a5c3a; line-height: 1.7; }
 
 /* PRODUCTS */
-
-.products-title{
-text-align:center;
-font-family:Playfair Display;
-font-size:42px;
-margin-bottom:60px;
+.products-section {
+  padding: 120px 8%;
+  background: linear-gradient(180deg, #f5ead0 0%, var(--cream-dark) 100%);
+  position: relative;
 }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:30px;
+.products-section::before {
+  content: 'PACHALLU';
+  position: absolute;
+  top: 60px;
+  right: -20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: rgba(192,57,43,0.05);
+  letter-spacing: 20px;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-.product{
-background:rgba(255,255,255,0.05);
-border-radius:20px;
-padding:40px;
-border:1px solid rgba(255,255,255,0.07);
-transition:.3s;
-position:relative;
-overflow:hidden;
+.category-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 60px;
+  border-bottom: 2px solid rgba(74,44,10,0.1);
+}
+.tab {
+  padding: 14px 36px;
+  background: none;
+  border: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #9a7a5a;
+  cursor: none;
+  position: relative;
+  transition: color 0.3s;
+  letter-spacing: 0.5px;
+}
+.tab::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s; }
+.tab.active { color: var(--red); }
+.tab.active::after { width: 100%; }
+.tab:hover { color: var(--red-deep); }
+
+.products-panel { display: none; }
+.products-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+
+.product-card {
+  background: white;
+  border: 1px solid rgba(74,44,10,0.07);
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: none;
+}
+.product-card::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -50%;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle, rgba(192,57,43,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.4s;
+  transform: scale(0.5);
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(74,44,10,0.12); }
+.product-card:hover::after { opacity: 1; transform: scale(2); }
+
+.product-emoji { font-size: 3rem; margin-bottom: 20px; display: block; }
+.product-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brown);
+  margin-bottom: 8px;
+}
+.product-card .desc { font-size: 0.95rem; color: #9a7a5a; margin-bottom: 22px; line-height: 1.6; }
+
+.weight-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.weight-chip {
+  padding: 5px 14px;
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 2px;
+  font-size: 0.82rem;
+  color: var(--red-deep);
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.weight-chip:hover { background: var(--red); color: white; border-color: var(--red); }
+
+.product-cta {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: none;
+  transition: all 0.3s;
+}
+.product-cta:hover { background: var(--red); color: white; }
+
+/* STORY SECTION */
+.story-section {
+  padding: 120px 8%;
+  background: var(--dark);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.story-section::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 50%;
+  background: radial-gradient(ellipse at left, rgba(192,57,43,0.15) 0%, transparent 70%);
 }
 
-.product::before{
-content:"";
-position:absolute;
-top:-100%;
-left:-100%;
-width:200%;
-height:200%;
-background:radial-gradient(circle, rgba(255,140,80,0.2), transparent 60%);
-opacity:0;
-transition:.4s;
-}
+.story-text { position: relative; z-index: 1; }
+.story-text .section-tag { color: var(--gold); }
+.story-text .section-title { color: var(--cream); }
+.story-text p { color: rgba(253,246,227,0.7); font-size: 1.1rem; line-height: 1.9; margin-top: 24px; }
 
-.product:hover::before{
-opacity:1;
-transform:translate(25%,25%);
+.story-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
 }
-
-.product:hover{
-transform:translateY(-10px);
+.stat-box {
+  padding: 24px;
+  border: 1px solid rgba(212,160,23,0.2);
+  background: rgba(255,255,255,0.03);
+  position: relative;
 }
+.stat-box::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--red); }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; color: var(--gold-light); }
+.stat-label { font-size: 0.85rem; color: rgba(253,246,227,0.5); letter-spacing: 1px; margin-top: 4px; }
 
-.product h3{
-color:#ff7a45;
-margin-bottom:10px;
+.story-visual { position: relative; z-index: 1; }
+.story-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.story-card {
+  padding: 28px 24px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212,160,23,0.15);
+  transition: all 0.3s;
 }
+.story-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-4px); }
+.story-card-icon { font-size: 2rem; margin-bottom: 12px; }
+.story-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold-light); margin-bottom: 6px; }
+.story-card p { font-size: 0.88rem; color: rgba(253,246,227,0.5); line-height: 1.6; }
 
-/* CTA */
-
-.cta{
-text-align:center;
-padding:120px 10%;
-background:linear-gradient(120deg,#1c0b05,#2e1209);
+/* CTA SECTION */
+.cta-section {
+  padding: 140px 8%;
+  background: linear-gradient(135deg, var(--red-deep) 0%, #5a0e08 50%, var(--brown) 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-
-.cta h2{
-font-family:Playfair Display;
-font-size:48px;
-margin-bottom:40px; /* increased space */
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-
-.cta button{
-background:linear-gradient(45deg,#ff7a45,#ffb36a);
-border:none;
-padding:18px 45px;
-font-size:18px;
-border-radius:40px;
-color:white;
-cursor:pointer;
+.cta-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
 }
+.cta-section h2 em { color: var(--gold-light); font-style: italic; }
+.cta-section p { color: rgba(255,255,255,0.75); font-size: 1.1rem; max-width: 500px; margin: 0 auto 48px; position: relative; z-index: 1; line-height: 1.8; }
+.cta-group { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; flex-wrap: wrap; }
+.btn-cta-white {
+  background: white;
+  color: var(--red-deep);
+  border: none;
+  padding: 18px 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: none;
+  transition: all 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+.btn-cta-white:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+.btn-cta-outline {
+  background: transparent;
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  padding: 18px 44px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  cursor: none;
+  transition: all 0.3s;
+}
+.btn-cta-outline:hover { background: rgba(255,255,255,0.1); border-color: white; transform: translateY(-4px); }
+
 /* FOOTER */
-
-footer{
-padding:50px;
-text-align:center;
-color:#aaa;
-border-top:1px solid rgba(255,255,255,0.06);
+footer {
+  background: var(--dark);
+  padding: 80px 8% 40px;
+  color: rgba(253,246,227,0.5);
 }
-
-/* WHATSAPP */
-
-.whatsapp{
-position:fixed;
-bottom:25px;
-right:25px;
-background:#25D366;
-padding:16px 26px;
-border-radius:40px;
-color:white;
-font-weight:600;
-text-decoration:none;
-box-shadow:0 10px 25px rgba(0,0,0,0.5);
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(212,160,23,0.1);
+  margin-bottom: 40px;
 }
+.footer-brand .nav-logo { font-size: 1.5rem; display: block; margin-bottom: 16px; }
+.footer-brand p { font-size: 0.95rem; line-height: 1.8; max-width: 280px; }
+.footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 20px; font-weight: 600; letter-spacing: 0.5px; }
+.footer-col a { display: block; color: rgba(253,246,227,0.5); text-decoration: none; font-size: 0.92rem; margin-bottom: 10px; transition: color 0.25s; }
+.footer-col a:hover { color: var(--gold-light); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.85rem; }
+.social-links { display: flex; gap: 16px; }
+.social-link { width: 38px; height: 38px; border: 1px solid rgba(212,160,23,0.2); display: flex; align-items: center; justify-content: center; color: rgba(253,246,227,0.5); text-decoration: none; transition: all 0.3s; font-size: 0.9rem; }
+.social-link:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(212,160,23,0.1); }
 
+/* WHATSAPP FLOAT */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(37,211,102,0.4);
+  transition: all 0.3s;
+  animation: waBounce 3s ease-in-out infinite;
+}
+.whatsapp-float:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+@keyframes waBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.whatsapp-float:hover { animation: none; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-left { padding: 130px 6% 80px; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .story-section { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  nav .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
 </style>
-
 </head>
-
 <body>
 
-<canvas id="sparkleCanvas"></canvas>
-
+<!-- NAV -->
 <nav>
-
-<div class="logo">Mee Intlo Maa Pachallu</div>
-
-<button class="order-btn magnetic" onclick="orderNow()">Order Now</button>
-
+  <div class="nav-logo">
+    Mee Intlo Maa Pachallu
+    <span>Homemade · Traditional · Fresh</span>
+  </div>
+  <div class="nav-links">
+    <a href="#products">Menu</a>
+    <a href="#story">Our Story</a>
+    <a href="tel:+917095787154">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="window.location.href='order.html'">Order Now →</button>
 </nav>
 
-<div class="hero">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div id="particles"></div>
 
-<div class="smoke"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Authentic Telangana Flavours</div>
+    <h1>
+      Taste of<br>
+      <span class="accent">Amma's</span><br>
+      <span class="red-accent">Kitchen</span>
+    </h1>
+    <p class="hero-sub">
+      Traditional homemade pickles crafted with hand-ground spices, fresh ingredients, and decades of Telangana heritage — sealed in glass, shipped across India.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="window.location.href='order.html'">Order Fresh Pickles →</button>
+      <button class="btn-secondary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">See Menu</button>
+    </div>
+    <div class="hero-tags">
+      <div class="hero-tag"><span>🫙</span> Glass-sealed jars</div>
+      <div class="hero-tag"><span>🌶️</span> Authentic spices</div>
+      <div class="hero-tag"><span>🚚</span> Pan-India delivery</div>
+    </div>
+  </div>
 
-<img class="jar" src=" ">
+  <div class="hero-right">
+    <div class="jar-scene">
+      <div class="orbit-ring orbit-1"><div class="orbit-dot dot-red"></div></div>
+      <div class="orbit-ring orbit-2"><div class="orbit-dot dot-gold"></div></div>
+      <div class="jar-glow"></div>
+      <svg class="jar-svg" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Jar lid -->
+        <rect x="90" y="50" width="120" height="24" rx="8" fill="#8b5e3c"/>
+        <rect x="80" y="62" width="140" height="16" rx="4" fill="#a0724a"/>
+        <!-- Jar body -->
+        <path d="M70 90 Q65 100 65 130 L65 290 Q65 310 80 315 L220 315 Q235 310 235 290 L235 130 Q235 100 230 90 Z" fill="#f5e6d0"/>
+        <path d="M70 90 Q65 100 65 130 L65 290 Q65 310 80 315 L220 315 Q235 310 235 290 L235 130 Q235 100 230 90 Z" fill="url(#jarGrad)" opacity="0.8"/>
+        <!-- Jar shine -->
+        <path d="M90 110 Q100 105 110 115 L115 280 Q105 285 95 280 Z" fill="white" opacity="0.15"/>
+        <!-- Contents (pickle-colored) -->
+        <clipPath id="jarClip">
+          <path d="M72 135 L72 290 Q72 308 85 313 L215 313 Q228 308 228 290 L228 135 Z"/>
+        </clipPath>
+        <rect x="72" y="155" width="156" height="160" fill="#6b3d11" clip-path="url(#jarClip)"/>
+        <ellipse cx="150" cy="158" rx="78" ry="12" fill="#7a4519" clip-path="url(#jarClip)"/>
+        <!-- Pickle chunks -->
+        <ellipse cx="115" cy="200" rx="22" ry="10" fill="#4a7c3f" opacity="0.7" clip-path="url(#jarClip)"/>
+        <ellipse cx="175" cy="220" rx="18" ry="8" fill="#4a7c3f" opacity="0.6" clip-path="url(#jarClip)"/>
+        <ellipse cx="140" cy="250" rx="25" ry="10" fill="#3d6b34" opacity="0.7" clip-path="url(#jarClip)"/>
+        <ellipse cx="105" cy="270" rx="16" ry="7" fill="#4a7c3f" opacity="0.5" clip-path="url(#jarClip)"/>
+        <!-- Spice dots -->
+        <circle cx="130" cy="185" r="4" fill="#c0392b" opacity="0.8" clip-path="url(#jarClip)"/>
+        <circle cx="160" cy="195" r="3" fill="#c0392b" opacity="0.7" clip-path="url(#jarClip)"/>
+        <circle cx="148" cy="230" r="4" fill="#d4a017" opacity="0.8" clip-path="url(#jarClip)"/>
+        <!-- Oil sheen -->
+        <ellipse cx="150" cy="158" rx="78" ry="12" fill="#d4700a" opacity="0.3" clip-path="url(#jarClip)"/>
+        <!-- Label -->
+        <rect x="90" y="165" width="120" height="70" rx="4" fill="white" opacity="0.9" clip-path="url(#jarClip)"/>
+        <text x="150" y="192" text-anchor="middle" font-family="serif" font-size="11" font-weight="bold" fill="#8b1a0f" clip-path="url(#jarClip)">MEE INTLO</text>
+        <text x="150" y="208" text-anchor="middle" font-family="serif" font-size="9" fill="#7a4519" clip-path="url(#jarClip)">MAA PACHALLU</text>
+        <text x="150" y="225" text-anchor="middle" font-family="serif" font-size="8" fill="#9a7a5a" clip-path="url(#jarClip)">★ HOMEMADE ★</text>
+        <!-- Jar outline -->
+        <path d="M70 90 Q65 100 65 130 L65 290 Q65 310 80 315 L220 315 Q235 310 235 290 L235 130 Q235 100 230 90 Z" stroke="#c9a55a" stroke-width="1.5" fill="none"/>
+        <!-- String decoration -->
+        <path d="M90 80 Q150 70 210 80" stroke="#8b5e3c" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+        <defs>
+          <linearGradient id="jarGrad" x1="65" y1="90" x2="235" y2="90" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#c8a882" stop-opacity="0.4"/>
+            <stop offset="40%" stop-color="white" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#8b6040" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="float-label float-label-1">🌶️ No Preservatives</div>
+      <div class="float-label float-label-2">🫙 Glass Sealed</div>
+      <div class="float-label float-label-3">🏡 Homemade</div>
+    </div>
+  </div>
 
-<div>
-
-<h1>Authentic Homemade Pickles</h1>
-
-<p>
-Traditional Telangana pickles prepared with real spices,
-fresh ingredients and the taste of home.
-</p>
-
-<button class="order-btn magnetic" onclick="orderNow()">Order Fresh Pickles</button>
-
-</div>
-
-</div>
-
-
-<section>
-
-<div class="features">
-
-<div class="feature">
-<h3>🌶 Authentic Telangana Taste</h3>
-<p>Traditional homemade recipes prepared with real spices.</p>
-</div>
-
-<div class="feature">
-<h3>🫙 Glass Jar Packaging</h3>
-<p>Sealed in classy glass jars.</p>
-</div>
-
-<div class="feature">
-<h3>🔥 Tailor Made Pickles</h3>
-<p>Custom spice levels exactly the way you like.</p>
-</div>
-
-<div class="feature">
-<h3>🚚 From Our Kitchen To Your Home</h3>
-<p>Delivery from our kitchen to every corner of India.</p>
-</div>
-
-</div>
-
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
 </section>
 
-
-<section>
-
-<div class="products-title">Customer Favorites</div>
-
-<div class="products">
-
-<div class="product">
-<h3>Chicken Pickle</h3>
-<p>Rich spicy Telangana style chicken pickle.</p>
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span> Chicken Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Fish Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Prawns Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Mutton Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Kakarakaya</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Usirikaaya</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Curry Leaves Powder</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Dry Fruits Laddu</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Chicken Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Fish Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Prawns Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Mutton Pickle</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Kakarakaya</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Usirikaaya</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Curry Leaves Powder</div>
+    <div class="marquee-item"><span class="marquee-dot"></span> Dry Fruits Laddu</div>
+  </div>
 </div>
 
-<div class="product">
-<h3>Fish Pickle</h3>
-<p>Fresh fish blended with aromatic spices.</p>
-</div>
-
-<div class="product">
-<h3>Prawns Pickle</h3>
-<p>Classic coastal prawns pickle loved by customers.</p>
-</div>
-
-<div class="product">
-<h3>Mutton Pickle</h3>
-<p>Bold mutton pickle prepared with premium spices.</p>
-</div>
-
-</div>
-
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-header reveal">
+    <div class="section-tag">Why Choose Us</div>
+    <h2 class="section-title">Crafted with <em>Love & Heritage</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">🌶️</span>
+      <h3>Authentic Telangana Taste</h3>
+      <p>Traditional family recipes passed down through generations, using hand-ground whole spices for an unmatched depth of flavour.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <span class="feature-icon">🫙</span>
+      <h3>Premium Glass Packaging</h3>
+      <p>Every jar is hermetically sealed in food-grade glass — no plastics, no compromise. Pure taste, preserved perfectly.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <span class="feature-icon">🔥</span>
+      <h3>Tailor-Made Spice Levels</h3>
+      <p>Your pickle, your way. Request custom spice levels from mild to extra-hot — we make it exactly how you like it.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-4">
+      <span class="feature-icon">🚚</span>
+      <h3>Pan-India Delivery</h3>
+      <p>From our kitchen to your doorstep, anywhere in India. Carefully packed to ensure your pickles arrive fresh and intact.</p>
+    </div>
+  </div>
 </section>
 
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-header reveal">
+    <div class="section-tag">Our Menu</div>
+    <h2 class="section-title">Pick Your <em>Favourite Pachallu</em></h2>
+  </div>
 
-<div class="cta">
+  <div class="category-tabs reveal">
+    <button class="tab active" onclick="showTab('nonveg', this)">🍖 Non-Veg Pickles</button>
+    <button class="tab" onclick="showTab('veg', this)">🥬 Veg Pickles</button>
+    <button class="tab" onclick="showTab('extras', this)">✨ Extras</button>
+  </div>
 
-<h2 class="cta-text">Experience the taste of homemade pickles.</h2>
+  <div id="tab-nonveg" class="products-panel active">
+    <div class="product-card reveal reveal-delay-1">
+      <span class="product-emoji">🍗</span>
+      <h3>Chicken Pickle</h3>
+      <p class="desc">Rich, bold Telangana-style chicken pickle cooked in traditional masalas. A timeless classic.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <span class="product-emoji">🐟</span>
+      <h3>Fish Pickle <span style="font-size:0.8rem;color:#9a7a5a">(Korrameenu)</span></h3>
+      <p class="desc">Fresh Korrameenu fish marinated and slow-cooked with aromatic coastal spices.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-3">
+      <span class="product-emoji">🦐</span>
+      <h3>Prawns Pickle</h3>
+      <p class="desc">Juicy prawns slow-pickled in a fiery tangy brine. A coastal favourite loved by all.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-1">
+      <span class="product-emoji">🍖</span>
+      <h3>Mutton with Bone</h3>
+      <p class="desc">Bold mutton pickle with bone, prepared using premium spices and slow-cooked to perfection.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <span class="product-emoji">🥩</span>
+      <h3>Mutton Boneless</h3>
+      <p class="desc">Premium boneless mutton in a robust, flavour-packed marinade. Melt-in-your-mouth texture.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+  </div>
 
-<button class="order-btn magnetic" onclick="orderNow()">Order Now</button>
+  <div id="tab-veg" class="products-panel">
+    <div class="product-card reveal reveal-delay-1">
+      <span class="product-emoji">🥒</span>
+      <h3>Kakarakaya Pickle</h3>
+      <p class="desc">Traditional bitter gourd pickle with a unique bitter-tangy balance loved by pickle connoisseurs.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <span class="product-emoji">🫐</span>
+      <h3>Usirikaaya Pickle</h3>
+      <p class="desc">Indian gooseberry pickle packed with Vitamin C and a sharp, tangy flavour that awakens the senses.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+  </div>
 
-</div>
+  <div id="tab-extras" class="products-panel">
+    <div class="product-card reveal reveal-delay-1">
+      <span class="product-emoji">🌿</span>
+      <h3>Curry Leaves Powder</h3>
+      <p class="desc">Sun-dried curry leaves, roasted and ground with spices. A versatile flavour-booster for rice and dosa.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <span class="product-emoji">🍘</span>
+      <h3>Dry Fruits Laddu <span style="font-size:0.8rem;color:#9a7a5a">(with ghee)</span></h3>
+      <p class="desc">Handmade laddus loaded with premium dry fruits and pure desi ghee. A rich, nutritious traditional sweet.</p>
+      <div class="weight-chips">
+        <div class="weight-chip">250g</div>
+        <div class="weight-chip">500g</div>
+        <div class="weight-chip">1kg</div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- STORY -->
+<section class="story-section" id="story">
+  <div class="story-text">
+    <div class="section-tag reveal">Our Story</div>
+    <h2 class="section-title reveal">From Our Kitchen<br>to <em>Your Home</em></h2>
+    <p class="reveal">Every jar of Mee Intlo Maa Pachallu carries the warmth of a home kitchen. We began with a simple mission — to share the authentic flavours of Telangana that remind you of your mother's cooking.</p>
+    <p class="reveal">No factories. No machines. Just fresh ingredients, traditional recipes, and the love that only homemade food can carry.</p>
+    <div class="story-stats reveal">
+      <div class="stat-box">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Happy Families</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">Pickle Varieties</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Natural Ingredients</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">🇮🇳</div>
+        <div class="stat-label">Pan-India Delivery</div>
+      </div>
+    </div>
+  </div>
+  <div class="story-visual">
+    <div class="story-card-grid">
+      <div class="story-card reveal reveal-delay-1">
+        <div class="story-card-icon">🏡</div>
+        <h4>Homemade</h4>
+        <p>Every batch made in our home kitchen with care.</p>
+      </div>
+      <div class="story-card reveal reveal-delay-2">
+        <div class="story-card-icon">🌿</div>
+        <h4>Natural</h4>
+        <p>No artificial preservatives, colors, or additives.</p>
+      </div>
+      <div class="story-card reveal reveal-delay-3">
+        <div class="story-card-icon">🫙</div>
+        <h4>Glass Sealed</h4>
+        <p>Premium airtight glass jars, no plastics ever.</p>
+      </div>
+      <div class="story-card reveal reveal-delay-4">
+        <div class="story-card-icon">❤️</div>
+        <h4>Made with Love</h4>
+        <p>Traditional recipes crafted with heart and pride.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to taste <em>home?</em></h2>
+  <p>Order your favourite pickles today and experience authentic Telangana flavours delivered fresh to your doorstep.</p>
+  <div class="cta-group">
+    <button class="btn-cta-white" onclick="window.location.href='order.html'">Order Now →</button>
+    <a href="https://wa.me/917095787154" target="_blank" class="btn-cta-outline">💬 WhatsApp Us</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-
-© 2026 Mee Intlo Maa Pickles  
-| Made With Love ❤️
-
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="nav-logo">Mee Intlo Maa Pachallu</span>
+      <p>Traditional Telangana homemade pickles, made with love and shipped to every corner of India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Our Menu</h4>
+      <a href="order.html">Non-Veg Pickles</a>
+      <a href="order.html">Veg Pickles</a>
+      <a href="order.html">Extra Items</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#products">Menu</a>
+      <a href="#story">About Us</a>
+      <a href="order.html">Order Now</a>
+      <a href="tel:+917095787154">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="tel:+917095787154">📞 +91 70957 87154</a>
+      <a href="https://wa.me/917095787154" target="_blank">💬 WhatsApp</a>
+      <a href="https://instagram.com/mee_intlo_maa_pachallu" target="_blank">📸 Instagram</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Mee Intlo Maa Pachallu | Made with ❤️</span>
+    <div class="social-links">
+      <a class="social-link" href="https://wa.me/917095787154" target="_blank">WA</a>
+      <a class="social-link" href="https://instagram.com/mee_intlo_maa_pachallu" target="_blank">IG</a>
+      <a class="social-link" href="tel:+917095787154">📞</a>
+    </div>
+  </div>
 </footer>
 
-
-<a class="whatsapp" href="order.html">Order</a>
+<a class="whatsapp-float" href="order.html">🛒 Order Pickles</a>
 
 <script>
+// Dot cursor
+const dot = document.createElement('div');
+dot.style.cssText = 'position:fixed;width:8px;height:8px;border-radius:50%;background:#d4a017;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.1s;top:-20px;left:-20px;';
+document.body.appendChild(dot);
+document.addEventListener('mousemove', e => { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px'; });
 
-/* SPARKLE PARTICLES */
+// Spice dust
+const spiceColors = ['#c0392b','#e67e22','#d4a017','#8b1a0f','#f0c040'];
+function spawnDust(cx, cy) {
+  if (Math.random() > 0.4) return;
+  const el = document.createElement('div');
+  const size = 3 + Math.random() * 5;
+  const ox = (Math.random() - 0.5) * 24;
+  const oy = (Math.random() - 0.5) * 24;
+  el.style.cssText = `position:fixed;width:${size}px;height:${size}px;border-radius:50%;background:${spiceColors[Math.floor(Math.random()*spiceColors.length)]};left:${cx+ox}px;top:${cy+oy}px;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);`;
+  document.body.appendChild(el);
+  const start = performance.now();
+  const dx = (Math.random()-0.5)*30, dy = (Math.random()-0.5)*30;
+  const dur = 600 + Math.random()*300;
+  const sx = cx+ox, sy = cy+oy;
+  function tick(now) {
+    const t = (now-start)/dur;
+    if (t>=1) { el.remove(); return; }
+    el.style.left = (sx+dx*t)+'px';
+    el.style.top = (sy+dy*t)+'px';
+    el.style.opacity = 1-t;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+document.addEventListener('mousemove', e => spawnDust(e.clientX, e.clientY));
+document.addEventListener('touchmove', e => {
+  Array.from(e.touches).forEach(t => { spawnDust(t.clientX, t.clientY); spawnDust(t.clientX, t.clientY); });
+}, { passive: true });
+document.addEventListener('touchstart', e => {
+  Array.from(e.touches).forEach(t => { for(let i=0;i<4;i++) spawnDust(t.clientX, t.clientY); });
+}, { passive: true });
 
-const canvas=document.getElementById("sparkleCanvas")
-const ctx=canvas.getContext("2d")
-
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-
-let particles=[]
-
-for(let i=0;i<80;i++){
-
-particles.push({
-
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2,
-dx:(Math.random()-0.5)*0.25,
-dy:(Math.random()-0.5)*0.25
-
-})
-
+// Spice particles
+const pCont = document.getElementById('particles');
+const colors = ['#c0392b','#e67e22','#d4a017','#8b1a0f','#f0c040'];
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'spice-particle';
+  const size = Math.random() * 6 + 2;
+  p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${10 + Math.random()*20}s;animation-delay:${Math.random()*15}s;`;
+  pCont.appendChild(p);
 }
 
-function animate(){
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => io.observe(r));
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-particles.forEach(p=>{
-
-ctx.beginPath()
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-ctx.fillStyle="rgba(255,200,150,0.7)"
-ctx.fill()
-
-p.x+=p.dx
-p.y+=p.dy
-
-})
-
-requestAnimationFrame(animate)
-
+// Tabs
+function showTab(name, btn) {
+  document.querySelectorAll('.products-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
 }
-
-animate()
-
-/* MAGNETIC BUTTON */
-
-document.querySelectorAll(".magnetic").forEach(btn=>{
-
-btn.addEventListener("mousemove",e=>{
-
-const rect=btn.getBoundingClientRect()
-
-const x=e.clientX-rect.left-rect.width/2
-const y=e.clientY-rect.top-rect.height/2
-
-btn.style.transform=`translate(${x*0.2}px,${y*0.2}px)`
-
-})
-
-btn.addEventListener("mouseleave",()=>{
-
-btn.style.transform="translate(0,0)"
-
-})
-
-})
-
-/* CURSOR TRAIL */
-
-document.addEventListener("mousemove",e=>{
-
-const dot=document.createElement("div")
-
-dot.style.position="fixed"
-dot.style.width="6px"
-dot.style.height="6px"
-dot.style.borderRadius="50%"
-dot.style.background="#ff7a45"
-dot.style.left=e.clientX+"px"
-dot.style.top=e.clientY+"px"
-dot.style.pointerEvents="none"
-dot.style.zIndex="9999"
-
-document.body.appendChild(dot)
-
-setTimeout(()=>{
-
-dot.style.transition="0.6s"
-dot.style.opacity="0"
-dot.style.transform="scale(2)"
-
-setTimeout(()=>dot.remove(),600)
-
-},10)
-
-})
-
-function orderNow(){
-window.location.href="order.html";
-}
-
 </script>
-
 </body>
 </html>
